@@ -42,6 +42,20 @@
       margin: 0 auto;
     }
 
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .unam-logo {
+      height: 60px;
+      opacity: 0.9;
+      filter: drop-shadow(0 0 6px rgba(15, 23, 42, 0.8));
+    }
+
     .badge {
       display: inline-flex;
       align-items: center;
@@ -129,10 +143,11 @@
       font-size: 0.86rem;
       color: var(--text-muted);
       line-height: 1.35;
+      margin-bottom: 0.4rem;
     }
 
     .figure {
-      margin-top: 1rem;
+      margin-top: 0.7rem;
       border-radius: 0.9rem;
       overflow: hidden;
       border: 1px solid rgba(30, 64, 175, 0.6);
@@ -152,8 +167,8 @@
     }
 
     .note {
-      margin-top: 1.5rem;
-      font-size: 0.78rem;
+      margin-top: 0.9rem;
+      font-size: 0.8rem;
       color: var(--text-muted);
       border-left: 2px solid rgba(148, 163, 184, 0.6);
       padding-left: 0.7rem;
@@ -161,7 +176,7 @@
 
     footer {
       border-top: 1px solid rgba(30, 64, 175, 0.3);
-      padding: 1rem 1.5rem 1.5rem;
+      padding: 1rem 1.5rem 1.8rem;
       font-size: 0.75rem;
       color: var(--text-muted);
     }
@@ -174,24 +189,44 @@
     footer a:hover {
       text-decoration: underline;
     }
+
+    .footer-row {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    @media (min-width: 640px) {
+      .footer-row {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+    }
   </style>
 </head>
 <body>
   <header>
     <div class="container">
-      <div class="badge">
-        <span></span>
-        Datos oficiales de Banxico · API SIE
+      <div class="top-bar">
+        <div class="badge">
+          <span></span>
+          Datos oficiales de Banxico · API SIE
+        </div>
+        <img src="unam_logo.png" alt="Escudo de la UNAM" class="unam-logo" />
       </div>
+
       <h1>
         KPIs macro <span>de México</span><br />
         explicados con gráficas simples
       </h1>
       <p class="subtitle">
-        Este sitio muestra, con datos oficiales del Banco de México, cómo se han
-        movido la tasa de interés objetivo, la inflación, la actividad económica
-        y el tipo de cambio. La idea es que cualquier persona pueda entender el
-        contexto económico sin ser experta en economía.
+        Este sitio muestra, con datos del Banco de México, cómo se han movido
+        la tasa de interés, los precios (inflación), la actividad económica y el
+        tipo de cambio. La idea es que cualquier persona pueda entender qué está
+        pasando con la economía sin tener que ser experta.
       </p>
       <div class="kpi-tags">
         <span>Tasa objetivo de Banxico (r)</span>
@@ -209,31 +244,27 @@
       <section class="card">
         <h2>1. Tasa de interés vs inflación</h2>
         <p>
-          La primera gráfica compara la <strong>tasa de interés objetivo de Banxico</strong>
-          con la <strong>inflación anual</strong>. Visualmente permite ver en qué momentos
-          la tasa se coloca por encima de la inflación (entorno más restrictivo)
-          y cuándo se queda por debajo.
+          Esta gráfica compara la <strong>tasa de interés que fija Banxico</strong>
+          con la <strong>inflación anual</strong>. Cuando la línea de la tasa está
+          por encima de la inflación, en general <strong>ahorrar o invertir
+          en pesos protege mejor frente a la subida de precios</strong>. Cuando
+          está por debajo, el dinero pierde poder de compra más rápido.
         </p>
 
         <div class="figure">
           <img src="tasa_vs_inflacion.png"
                alt="Gráfica de tasa objetivo de Banxico frente a inflación anual" />
           <div class="figure-caption">
-            Figura 1. Tasa objetivo de Banxico vs Inflación anual.
+            Figura 1. Tasa objetivo de Banxico vs inflación anual.
           </div>
         </div>
 
-        <p class="note">
-          Esta relación se basa en la lógica de la regla de Taylor: la política monetaria
-          reacciona a la inflación y al estado de la actividad económica.
-        </p>
-
-        <h2 style="margin-top:1.5rem;">2. Tasa real aproximada (r – π)</h2>
+        <h2 style="margin-top:1.4rem;">2. Tasa real aproximada (r – π)</h2>
         <p>
-          La segunda gráfica toma la diferencia entre la tasa de interés nominal y la
-          inflación para aproximar la <strong>tasa real</strong>. Valores positivos indican
-          que, en promedio, ahorrar o invertir a esa tasa le gana a la inflación;
-          valores negativos implican lo contrario.
+          Aquí se muestra la <strong>tasa real</strong>, que es la tasa de interés
+          menos la inflación. Si la línea está arriba de cero, la tasa de interés
+          le gana a los precios; si está abajo de cero, la inflación le va
+          ganando al rendimiento.
         </p>
 
         <div class="figure">
@@ -245,8 +276,8 @@
         </div>
 
         <p class="note">
-          Esta idea viene de la ecuación de Fisher, donde la tasa real se aproxima como
-          tasa nominal menos inflación.
+          Esta idea viene de una relación básica de economía: para saber si una
+          tasa “alcanza”, hay que compararla con la inflación.
         </p>
       </section>
 
@@ -254,9 +285,10 @@
       <section class="card">
         <h2>3. Tasa de interés objetivo de Banxico</h2>
         <p>
-          Aquí se muestra solo la trayectoria de la <strong>tasa objetivo</strong>.
-          Sirve como línea base para entender los ciclos de alzas y bajas y cómo se
-          han endurecido o relajado las condiciones financieras en México.
+          Esta gráfica muestra solo la <strong>tasa de interés objetivo</strong>.
+          Se pueden ver los periodos en los que Banxico sube la tasa para enfriar
+          la economía y la inflación, y los momentos en los que la baja para
+          apoyar la actividad económica.
         </p>
 
         <div class="figure">
@@ -267,27 +299,29 @@
           </div>
         </div>
 
-        <h2 style="margin-top:1.5rem;">4. Tipo de cambio FIX</h2>
+        <h2 style="margin-top:1.4rem;">4. Tipo de cambio FIX</h2>
         <p>
-          La cuarta gráfica muestra la <strong>variación mensual del tipo de cambio FIX</strong>.
-          Picos hacia arriba indican depreciaciones fuertes del peso; picos hacia abajo,
-          apreciaciones. Es una forma visual de seguir episodios de volatilidad cambiaria.
+          Aquí vemos la <strong>variación mensual del tipo de cambio FIX</strong>,
+          es decir, cómo cambia el peso frente al dólar cada mes. Picos hacia
+          arriba señalan momentos donde el peso se depreció fuerte; picos hacia
+          abajo, periodos donde el peso se fortaleció.
         </p>
 
         <div class="figure">
           <img src="variacion_tc.png"
                alt="Gráfica de variación mensual del tipo de cambio FIX" />
           <div class="figure-caption">
-            Figura 4. Variación mensual del tipo de cambio FIX (aprox. %).
+            Figura 4. Variación mensual del tipo de cambio FIX (porcentaje aproximado).
           </div>
         </div>
 
-        <h2 style="margin-top:1.5rem;">5. Correlación entre variables</h2>
+        <h2 style="margin-top:1.4rem;">5. Correlación entre variables</h2>
         <p>
-          Finalmente, el mapa de calor resume la <strong>correlación</strong> entre
-          actividad económica (y), tasa de interés (r), inflación (π) y tipo de cambio
-          (Δln(TC)). No es un modelo econométrico, solo una forma sencilla de ver qué
-          variables se mueven más juntas.
+          El mapa de calor resume qué tan juntas se mueven estas variables:
+          <strong>actividad económica (y)</strong>, <strong>tasa de interés (r)</strong>,
+          <strong>inflación (π)</strong> y <strong>tipo de cambio</strong>.
+          Los colores más rojos indican relaciones más fuertes; los tonos claros,
+          relaciones más débiles.
         </p>
 
         <div class="figure">
@@ -299,21 +333,24 @@
         </div>
 
         <p class="note">
-          Las correlaciones ayudan a identificar relaciones básicas antes de entrar a
-          modelos más formales (como regresiones o VAR), pero aquí se usan solo con
-          fines descriptivos.
+          Esto no es un modelo matemático complicado, solo una forma rápida de
+          ver qué indicadores suelen moverse en la misma dirección.
         </p>
       </section>
     </div>
   </main>
 
   <footer>
-    <div class="container">
-      Datos descargados vía API SIE del
-      <a href="https://www.banxico.org.mx/SieAPIRest/" target="_blank" rel="noopener noreferrer">
-        Banco de México
-      </a>.
-      Este sitio tiene fines exclusivamente académicos y de divulgación.
+    <div class="footer-row">
+      <div>
+        Datos descargados vía API SIE del
+        <a href="https://www.banxico.org.mx/SieAPIRest/" target="_blank" rel="noopener noreferrer">
+          Banco de México
+        </a>.
+      </div>
+      <div>
+        © 2025 Jaime Gael Castellanos Mendoza. Todos los derechos reservados.
+      </div>
     </div>
   </footer>
 </body>
