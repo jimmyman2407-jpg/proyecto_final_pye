@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>KPIs de la economía mexicana · Banxico</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta
+    name="description"
+    content="Visualización sencilla de los principales indicadores macroeconómicos de México usando datos oficiales de Banxico."
+  />
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-panel: #02081d;
+      --accent: #22d3ee;
+      --accent2: #4f46e5;
+      --text-main: #e5e7eb;
+      --text-muted: #9ca3af;
+      --border-soft: #111827;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background: radial-gradient(circle at top left, #0b1220 0, var(--bg) 40%);
+      color: var(--text-main);
+      min-height: 100vh;
+    }
+
+    header {
+      padding: 2.5rem 1.5rem 1rem;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.2rem 0.7rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(10px);
+    }
+
+    .badge span {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--accent);
+    }
+
+    h1 {
+      margin-top: 1.25rem;
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      line-height: 1.1;
+      letter-spacing: 0.03em;
+    }
+
+    h1 span {
+      color: var(--accent);
+    }
+
+    .subtitle {
+      margin-top: 0.9rem;
+      max-width: 40rem;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    .kpi-tags {
+      margin-top: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+    }
+
+    .kpi-tags span {
+      padding: 0.25rem 0.7rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(51, 65, 85, 0.7);
+      color: var(--text-muted);
+    }
+
+    main {
+      padding: 0 1.5rem 3rem;
+    }
+
+    .grid {
+      display: grid;
+      gap: 1.75rem;
+      margin-top: 2rem;
+    }
+
+    @media (min-width: 900px) {
+      .grid {
+        grid-template-columns: 1.1fr 0.9fr;
+      }
+    }
+
+    .card {
+      background: radial-gradient(circle at top left, #020617 0, var(--bg-panel) 55%);
+      border-radius: 1.2rem;
+      border: 1px solid rgba(31, 41, 55, 0.9);
+      padding: 1.1rem 1.2rem 1.3rem;
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.8);
+    }
+
+    .card h2 {
+      font-size: 1.05rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .card p {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      line-height: 1.35;
+    }
+
+    .figure {
+      margin-top: 1rem;
+      border-radius: 0.9rem;
+      overflow: hidden;
+      border: 1px solid rgba(30, 64, 175, 0.6);
+    }
+
+    .figure img {
+      width: 100%;
+      display: block;
+    }
+
+    .figure-caption {
+      padding: 0.45rem 0.7rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      background: rgba(15, 23, 42, 0.98);
+      border-top: 1px solid rgba(30, 64, 175, 0.25);
+    }
+
+    .note {
+      margin-top: 1.5rem;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      border-left: 2px solid rgba(148, 163, 184, 0.6);
+      padding-left: 0.7rem;
+    }
+
+    footer {
+      border-top: 1px solid rgba(30, 64, 175, 0.3);
+      padding: 1rem 1.5rem 1.5rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="badge">
+        <span></span>
+        Datos oficiales de Banxico · API SIE
+      </div>
+      <h1>
+        KPIs macro <span>de México</span><br />
+        explicados con gráficas simples
+      </h1>
+      <p class="subtitle">
+        Este sitio muestra, con datos oficiales del Banco de México, cómo se han
+        movido la tasa de interés objetivo, la inflación, la actividad económica
+        y el tipo de cambio. La idea es que cualquier persona pueda entender el
+        contexto económico sin ser experta en economía.
+      </p>
+      <div class="kpi-tags">
+        <span>Tasa objetivo de Banxico (r)</span>
+        <span>Inflación anual (π)</span>
+        <span>Tasa real (r – π)</span>
+        <span>IGAE (actividad económica)</span>
+        <span>Tipo de cambio FIX</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container grid">
+      <!-- Columna izquierda -->
+      <section class="card">
+        <h2>1. Tasa de interés vs inflación</h2>
+        <p>
+          La primera gráfica compara la <strong>tasa de interés objetivo de Banxico</strong>
+          con la <strong>inflación anual</strong>. Visualmente permite ver en qué momentos
+          la tasa se coloca por encima de la inflación (entorno más restrictivo)
+          y cuándo se queda por debajo.
+        </p>
+
+        <div class="figure">
+          <img src="tasa_vs_inflacion.png"
+               alt="Gráfica de tasa objetivo de Banxico frente a inflación anual" />
+          <div class="figure-caption">
+            Figura 1. Tasa objetivo de Banxico vs Inflación anual.
+          </div>
+        </div>
+
+        <p class="note">
+          Esta relación se basa en la lógica de la regla de Taylor: la política monetaria
+          reacciona a la inflación y al estado de la actividad económica.
+        </p>
+
+        <h2 style="margin-top:1.5rem;">2. Tasa real aproximada (r – π)</h2>
+        <p>
+          La segunda gráfica toma la diferencia entre la tasa de interés nominal y la
+          inflación para aproximar la <strong>tasa real</strong>. Valores positivos indican
+          que, en promedio, ahorrar o invertir a esa tasa le gana a la inflación;
+          valores negativos implican lo contrario.
+        </p>
+
+        <div class="figure">
+          <img src="tasa_real_aprox.png"
+               alt="Gráfica de tasa real aproximada de la política monetaria" />
+          <div class="figure-caption">
+            Figura 2. Tasa real aproximada de la política monetaria (r – π).
+          </div>
+        </div>
+
+        <p class="note">
+          Esta idea viene de la ecuación de Fisher, donde la tasa real se aproxima como
+          tasa nominal menos inflación.
+        </p>
+      </section>
+
+      <!-- Columna derecha -->
+      <section class="card">
+        <h2>3. Tasa de interés objetivo de Banxico</h2>
+        <p>
+          Aquí se muestra solo la trayectoria de la <strong>tasa objetivo</strong>.
+          Sirve como línea base para entender los ciclos de alzas y bajas y cómo se
+          han endurecido o relajado las condiciones financieras en México.
+        </p>
+
+        <div class="figure">
+          <img src="tasa_objetivo.png"
+               alt="Gráfica de la tasa de interés objetivo de Banxico" />
+          <div class="figure-caption">
+            Figura 3. Tasa de interés objetivo de Banxico.
+          </div>
+        </div>
+
+        <h2 style="margin-top:1.5rem;">4. Tipo de cambio FIX</h2>
+        <p>
+          La cuarta gráfica muestra la <strong>variación mensual del tipo de cambio FIX</strong>.
+          Picos hacia arriba indican depreciaciones fuertes del peso; picos hacia abajo,
+          apreciaciones. Es una forma visual de seguir episodios de volatilidad cambiaria.
+        </p>
+
+        <div class="figure">
+          <img src="variacion_tc.png"
+               alt="Gráfica de variación mensual del tipo de cambio FIX" />
+          <div class="figure-caption">
+            Figura 4. Variación mensual del tipo de cambio FIX (aprox. %).
+          </div>
+        </div>
+
+        <h2 style="margin-top:1.5rem;">5. Correlación entre variables</h2>
+        <p>
+          Finalmente, el mapa de calor resume la <strong>correlación</strong> entre
+          actividad económica (y), tasa de interés (r), inflación (π) y tipo de cambio
+          (Δln(TC)). No es un modelo econométrico, solo una forma sencilla de ver qué
+          variables se mueven más juntas.
+        </p>
+
+        <div class="figure">
+          <img src="correlacion_basica.png"
+               alt="Mapa de calor de correlación entre y, r, pi y variación del tipo de cambio" />
+          <div class="figure-caption">
+            Figura 5. Correlación entre y, r, π y Δln(TC).
+          </div>
+        </div>
+
+        <p class="note">
+          Las correlaciones ayudan a identificar relaciones básicas antes de entrar a
+          modelos más formales (como regresiones o VAR), pero aquí se usan solo con
+          fines descriptivos.
+        </p>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      Datos descargados vía API SIE del
+      <a href="https://www.banxico.org.mx/SieAPIRest/" target="_blank" rel="noopener noreferrer">
+        Banco de México
+      </a>.
+      Este sitio tiene fines exclusivamente académicos y de divulgación.
+    </div>
+  </footer>
+</body>
+</html>
